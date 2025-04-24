@@ -46,17 +46,17 @@ app.post('/generate_clip', (req, res) => {
 
     console.log(`▶️ Running yt-dlp for ${ytLink}`);
     
-    const ytDlp = spawn('yt-dlp', [
-        '--force-overwrites',
-        '--no-continue',
-        '--format', 'best[ext=mp4]/best',
-        '--no-playlist',
-        '--no-part',
-        '--retries', '3',
-        '--fragment-retries', '3',
-        '-o', tempPath + '.%(ext)s',
-        ytLink
-    ]);
+	const ytDlp = spawn('yt-dlp', [
+		'--force-overwrites',
+		'--no-continue',
+		'--format', 'best[ext=mp4]/best',
+		'--no-playlist',
+		'--no-part',
+		'--retries', '3',
+		'--fragment-retries', '3',
+		'-o', tempPath + '.%(ext)s',
+		ytLink
+	]);
 
     ytDlp.stdout.on('data', (data) => {
         console.log(`yt-dlp output: ${data}`);
