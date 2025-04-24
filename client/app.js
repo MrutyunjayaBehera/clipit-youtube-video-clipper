@@ -1,4 +1,6 @@
-document.getElementById('generateClip').addEventListener('click', function () {
+document.getElementById('generateClip').addEventListener('click', function (e) {
+	e.preventDefault();
+
 	const ytLink = document.getElementById('ytLink').value;
 	const startTime = document.getElementById('startTime').value;
 	const endTime = document.getElementById('endTime').value;
@@ -9,20 +11,21 @@ document.getElementById('generateClip').addEventListener('click', function () {
 		return;
 	}
 
-	const videoPreview = document.getElementById('videoPreview');
-	videoPreview.src = ytLink;
-	videoPreview.style.display = 'block';
+	// const videoPreview = document.getElementById('videoPreview');
+	// videoPreview.src = ytLink;
+	// videoPreview.style.display = 'block';
 
 	// Display the video preview
-	const videoPlayer = document.getElementById('videoPlayer');
-	videoPlayer.src = `https://www.youtube.com/embed/${getYouTubeID(ytLink)}?start=${startTime}&end=${endTime}`;
-	videoPlayer.style.display = 'block';
+	// const videoPlayer = document.getElementById('videoPlayer');
+	// videoPlayer.src = `https://www.youtube.com/embed/${getYouTubeID(ytLink)}?start=${startTime}&end=${endTime}`;
+	// videoPlayer.style.display = 'block';
 
 	// Send request to backend to generate clip
 	fetch('http://localhost:5000/generate_clip', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ ytLink, startTime: Number(startTime), endTime: Number(endTime) })
+		body: JSON.stringify({ ytLink, startTime: Number(startTime), endTime: Number(endTime) }),
+		keepalive: true
 	})
 		.then(response => response.json())
 		.then((data) => {
@@ -37,7 +40,7 @@ document.getElementById('generateClip').addEventListener('click', function () {
 		})
 		.catch((error) => {
 			console.error('Error:', error);
-			alert('Failed to process the video');
+			alert('Failed to process the video:: ', error);
 		});
 });
 
