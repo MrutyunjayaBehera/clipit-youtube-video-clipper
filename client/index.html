@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>YouTube Video Clipper</title>
+		<style>
+			/* Basic styles for layout */
+			body {
+				font-family: Arial, sans-serif;
+				padding: 20px;
+				text-align: center;
+			}
+			input {
+				padding: 10px;
+				margin: 10px;
+				width: 80%;
+			}
+			button {
+				padding: 10px 20px;
+				background-color: #2e9afe;
+				color: white;
+				border: none;
+				cursor: pointer;
+			}
+			video {
+				margin-top: 20px;
+				max-width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>YouTube Video Clipper</h1>
+
+		<input type="text" id="ytLink" placeholder="Paste YouTube link here" />
+		<br />
+		<div id="previewContainer" style="display: none">
+			<iframe
+				id="videoPreview"
+				width="560"
+				height="315"
+				allowfullscreen
+				src=""
+				frameborder="0"
+			></iframe>
+			<a id="loadVideo" href="#">
+				<button>Load Video</button>
+			</a>
+		</div>
+
+		<input
+			type="number"
+			id="startTime"
+			placeholder="Start time in seconds"
+		/>
+		<br />
+		<input type="number" id="endTime" placeholder="End time in seconds" />
+		<br />
+		<button id="generateClip">Generate Clip</button>
+
+		<div id="playerContainer">
+			<video id="videoPlayer" controls></video>
+		</div>
+
+		<div id="downloadContainer" style="display: none">
+			<a id="downloadLink" href="#" download="clipped_video.mp4">
+				<button>Download Clip</button>
+			</a>
+		</div>
+
+		<script src="app.js"></script>
+	</body>
+</html>
