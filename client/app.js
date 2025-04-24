@@ -46,8 +46,7 @@ document.getElementById('generateClip').addEventListener('click', async function
         const response = await fetch('http://localhost:5000/generate_clip', {
             method: 'POST',
             headers: { 
-				'Content-Type': 'application/json',
-				'Connection': 'keep-alive'
+				'Content-Type': 'application/json'
             },
 			body: JSON.stringify({ ytLink, startTime: Number(startTime), endTime: Number(endTime) }),
 			signal: controller.signal

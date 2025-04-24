@@ -10,8 +10,6 @@ app.use(cors({
     origin: ['http://127.0.0.1:5500', 'http://localhost:5000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
-	// credentials: true
-	optionsSuccessStatus: 200 // to avoid pre flight error
 }));
 
 app.use(express.json());
