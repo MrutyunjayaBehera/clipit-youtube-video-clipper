@@ -7,10 +7,11 @@ const app = express();
 const PORT = 5000;
 
 app.use(cors({
-    origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],
+    origin: ['http://127.0.0.1:5500', 'http://localhost:5000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
-    credentials: true
+	// credentials: true
+	optionsSuccessStatus: 200 // to avoid pre flight error
 }));
 
 app.use(express.json());
@@ -22,6 +23,8 @@ if (!fs.existsSync(path.join(__dirname, 'clips'))) {
 }
 
 app.post('/generate_clip', (req, res) => {
+	req.setTimeout(300000); // timeout, dont die before 5 min
+
     const { ytLink, startTime, endTime } = req.body || {};
     if (!ytLink || startTime === undefined || endTime === undefined) {
         return res.status(400).json({ success: false, error: 'Missing ytLink/startTime/endTime' });
@@ -152,6 +155,8 @@ app.post('/generate_clip', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+server.setTimeout(300000);

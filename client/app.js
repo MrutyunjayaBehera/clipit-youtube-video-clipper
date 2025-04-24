@@ -40,13 +40,20 @@ document.getElementById('generateClip').addEventListener('click', async function
         generateButton.disabled = true;
         loadingElement.style.display = 'block';
         
+		const controller = new AbortController();
+		const timeoutID = setTimeout(() => controller.abort(), 900000);
+
         const response = await fetch('http://localhost:5000/generate_clip', {
             method: 'POST',
             headers: { 
-                'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Connection': 'keep-alive'
             },
-            body: JSON.stringify({ ytLink, startTime: Number(startTime), endTime: Number(endTime) })
-        });
+			body: JSON.stringify({ ytLink, startTime: Number(startTime), endTime: Number(endTime) }),
+			signal: controller.signal
+		});
+		
+		clearTimeout(timeoutID);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -65,9 +72,13 @@ document.getElementById('generateClip').addEventListener('click', async function
         } else {
             throw new Error(data.error || 'Error generating clip');
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to process the video: ' + error.message);
+	} catch (error) {
+		if (error.name === 'AbortError') {
+			alert('⚠️ Request timed out. Please try again.');
+		} else {
+			console.error('Error:', error);
+			alert('Failed to process the video: ' + error.message);
+		}
     } finally {
         // Reset UI state
         generateButton.disabled = false;
